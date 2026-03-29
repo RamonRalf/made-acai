@@ -11,6 +11,7 @@
 
     <div class="container">
         <header>
+            <div id="status-bar" class="status-bar">Verificando horário...</div>
             <img src="Madê_Açaí.jpeg" alt="Madê Açaí" class="logo-topo">
             <h1>Madê Açaí Delivery</h1>
             <div class="instrucao-topo">
@@ -24,7 +25,7 @@
             <input type="text" id="name" placeholder="Como quer ser chamado?" required>
 
             <div class="product-box">
-                <label>Tamanho (Obrigatório):</label>
+                <label for="size">Tamanho (Obrigatório):</label>
                 <select id="size">
                     <option value="0">Selecione o tamanho...</option>
                     <option value="6">250 ml - R$ 6,00</option>
@@ -41,7 +42,10 @@
                     <label class="check-container"><input type="checkbox" class="topping" value="Aveia" data-price="2"> Aveia</label>
 
                     <p class="price-header">R$ 2,50 cada:</p>
-                    <label class="check-container unavailable"><input type="checkbox" class="topping" value="Banana" data-price="2.5" disabled> Banana <span class="sold-out-badge">Esgotado</span></label>
+                    <label class="check-container unavailable">
+                        <input type="checkbox" class="topping" value="Banana" data-price="2.5" disabled> Banana 
+                        <span class="sold-out-badge">Esgotado</span>
+                    </label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Biscoito Oreo" data-price="2.5"> Biscoito Oreo</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Farinha Láctea" data-price="2.5"> Farinha Láctea</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Raspas de Chocolate" data-price="2.5"> Raspas de Chocolate</label>
@@ -99,14 +103,14 @@
                 </div>
 
                 <label for="complement">Complemento (Opcional):</label>
-                <input type="text" id="complement" placeholder="Apt, Casa fundos, Bloco...">
+                <input type="text" id="complement" placeholder="Apt, Casa fundos...">
 
                 <label for="refPoint">Ponto de Referência:</label>
                 <input type="text" id="refPoint" placeholder="Ex: Próximo à mercearia">
             </div>
 
             <div id="pickup-info" class="hidden-field info-box">
-                <p>📍 <strong>Retirada:</strong> Pedro Francisco da Costa, nº 516, Morro Vermelho (Em frente à mercearia).</p>
+                <p>📍 <strong>Retirada:</strong> Retirada: Pedro Francisco da Costa, nº 516, Morro Vermelho (Em frente à mercearia).</p>
             </div>
 
             <label for="payment">Forma de Pagamento:</label>
@@ -121,10 +125,11 @@
                 <p><strong>Favorecido: Rodrigo Emanuel da Silva</strong></p>
                 <div class="copy-pix">
                     <span id="pix-key">32998346183</span>
-                    <button type="button" onclick="copyPixKey()" class="btn-copy">Copiar Chave 📋</button>
+                    <button type="button" onclick="copyPixKey()" class="btn-copy">Copiar 📋</button>
                 </div>
                 <div class="qr-code-area">
                     <img src="qrcode-pix.jpeg" alt="QR Code Pix" width="150">
+                    <p style="margin-top: 8px;"><small>Aponte a câmera para pagar!</small></p>
                 </div>
             </div>
 
@@ -143,7 +148,7 @@
                 Total Geral: R$ <span id="totalValue">0,00</span>
             </div>
 
-            <button type="button" class="btn-send" onclick="sendOrder()">Finalizar no WhatsApp 🛵</button>
+            <button type="button" id="btn-finalizar" class="btn-send" onclick="sendOrder()">Finalizar no WhatsApp 🛵</button>
         </form>
     </div>
 
