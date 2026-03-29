@@ -11,11 +11,11 @@
 
     <div class="container">
         <header>
-            <img src="Madê_Açaí.jpeg" alt="Madê Açaí" class="logo-topo" width="120" height="120">
-            <h1 class="titulo-marca">Madê Açaí Delivery</h1>
+            <img src="Madê_Açaí.jpeg" alt="Madê Açaí" class="logo-topo">
+            <h1>Madê Açaí Delivery</h1>
             <div class="instrucao-topo">
-                <p>✨ <strong>Escolha o tamanho (Obrigatório)</strong> e adicionais (Opcional).</p>
-                <p>🛒 <strong>Clique em "Adicionar à Sacola"</strong> para cada novo açaí que desejar.</p>
+                ✨ <strong>Escolha o tamanho (Obrigatório)</strong> e adicionais (Opcional).<br>
+                🛒 <strong>Clique em "Adicionar à Sacola"</strong> para cada novo açaí que desejar.
             </div>
         </header>
         
@@ -79,39 +79,52 @@
 
             <label>Como deseja receber?</label>
             <div class="delivery-type-box">
-                <label><input type="radio" name="deliveryType" value="entrega" checked onchange="handleDeliveryOption()"> Entrega (+ R$ 4,00)</label>
+                <label><input type="radio" name="deliveryType" value="entrega" checked onchange="handleDeliveryOption()"> Entrega (+R$ 4,00)</label>
                 <label><input type="radio" name="deliveryType" value="retirada" onchange="handleDeliveryOption()"> Retirada</label>
             </div>
 
             <div id="address-section">
-                <label for="address">Endereço de Entrega (Obrigatório):</label>
-                <textarea id="address" rows="3" placeholder="Rua, número, bairro e ponto de referência" required></textarea>
+                <label for="street">Rua/Endereço:</label>
+                <input type="text" id="street" placeholder="Nome da rua ou avenida">
+
+                <div class="inline-fields">
+                    <div style="flex: 1;">
+                        <label for="number">Número:</label>
+                        <input type="text" id="number" placeholder="Ex: 516">
+                    </div>
+                    <div style="flex: 2;">
+                        <label for="neighborhood">Bairro:</label>
+                        <input type="text" id="neighborhood" placeholder="Ex: Morro Vermelho">
+                    </div>
+                </div>
+
+                <label for="complement">Complemento (Opcional):</label>
+                <input type="text" id="complement" placeholder="Apt, Casa fundos, Bloco...">
+
+                <label for="refPoint">Ponto de Referência:</label>
+                <input type="text" id="refPoint" placeholder="Ex: Próximo à mercearia">
             </div>
 
             <div id="pickup-info" class="hidden-field info-box">
-                <p>📍 <strong>Endereço para retirada:</strong><br>
-                Pedro Francisco da Costa, nº 516 - Morro Vermelho.<br>
-                (Em frente à mercearia, placa da Madê).</p>
+                <p>📍 <strong>Retirada:</strong> Pedro Francisco da Costa, nº 516, Morro Vermelho (Em frente à mercearia).</p>
             </div>
 
             <label for="payment">Forma de Pagamento:</label>
             <select id="payment" onchange="handlePaymentChange()" required>
                 <option value="">Selecione...</option>
                 <option value="Pix">Pix</option>
-                <option value="Cartão">Cartão (Aceitamos todas as bandeiras 💳)</option>
+                <option value="Cartão">Cartão (Todas as bandeiras 💳)</option>
                 <option value="Dinheiro">Dinheiro</option>
             </select>
 
             <div id="pix-options" class="hidden-field pix-box">
-                <p><strong>Pagamento via Pix</strong></p>
-                <p>Favorecido: Rodrigo Emanuel da Silva</p>
+                <p><strong>Favorecido: Rodrigo Emanuel da Silva</strong></p>
                 <div class="copy-pix">
                     <span id="pix-key">32998346183</span>
                     <button type="button" onclick="copyPixKey()" class="btn-copy">Copiar Chave 📋</button>
                 </div>
                 <div class="qr-code-area">
                     <img src="qrcode-pix.jpeg" alt="QR Code Pix" width="150">
-                    <p><small>Aponte a câmera para pagar</small></p>
                 </div>
             </div>
 
@@ -130,7 +143,7 @@
                 Total Geral: R$ <span id="totalValue">0,00</span>
             </div>
 
-            <button type="button" class="btn-send" onclick="sendOrder()">Finalizar Pedido no WhatsApp 🛵</button>
+            <button type="button" class="btn-send" onclick="sendOrder()">Finalizar no WhatsApp 🛵</button>
         </form>
     </div>
 
