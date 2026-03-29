@@ -1,0 +1,221 @@
+/* Configurações básicas da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    padding: 15px;
+    margin: 0;
+}
+
+/* Container principal do site (cartão branco) */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-top: 10px solid #5d2a61; /* Roxo da marca */
+}
+
+/* Cabeçalho e Logo */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-topo {
+    width: 90px;
+}
+
+h1 {
+    color: #5d2a61;
+    font-size: 22px;
+    margin: 5px 0;
+}
+
+/* Estilo geral de rótulos e campos de entrada */
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+    font-size: 16px;
+}
+
+/* Caixa onde o cliente monta o açaí */
+.product-box {
+    background: #fdfbff;
+    border: 1px solid #e0d0e3;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+/* Seção de adicionais com rolagem (scroll) */
+.topping-section {
+    max-height: 250px;
+    overflow-y: auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin: 10px 0;
+}
+
+/* Títulos de preço dentro dos adicionais */
+.price-header {
+    color: #5d2a61;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    margin: 10px 0 5px 0;
+    font-size: 14px;
+}
+
+/* Estilo dos checkboxes e seus textos */
+.topping-section label {
+    font-weight: normal;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.topping-section input {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+/* Botão "Adicionar à Sacola" */
+.btn-add {
+    background: #5d2a61;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.btn-add:hover {
+    background: #4a214d;
+}
+
+/* Seção da Sacola (Carrinho) */
+.cart-container {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    border: 1px dashed #ccc;
+}
+
+#cart-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+/* Classes para campos ocultos (Troco) */
+.hidden-field {
+    display: none; /* Escondido por padrão */
+    margin-top: 10px;
+    background: #fff9db; /* Fundo amarelo suave */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Alinhamento dos botões de rádio (Sim/Não) */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.radio-group label {
+    font-weight: normal;
+    margin-top: 0;
+}
+
+.radio-group input {
+    width: auto;
+    margin-right: 5px;
+}
+
+/* Exibição do Total Geral */
+.total-display {
+    background: #5d2a61;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Botão principal "Finalizar" (Verde WhatsApp) */
+.btn-send {
+    width: 100%;
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-send:hover {
+    background: #1ebe57;
+}
+
+/* Ajuste para alinhar o texto à esquerda e o botão à direita */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+    flex: 1; /* Ocupa o máximo de espaço para empurrar o botão */
+}
+
+/* Estilo do botão Remover */
+.btn-remove {
+    background: #ff4d4d; /* Vermelho */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background 0.2s;
+}
+
+.btn-remove:hover {
+    background: #cc0000;
+}
