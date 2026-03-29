@@ -1,4 +1,4 @@
-/* Configurações básicas da página */
+/* 1. CONFIGURAÇÕES BÁSICAS (MANTIDO SEU PADRÃO PERFEITO) */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f0f0;
@@ -6,7 +6,6 @@ body {
     margin: 0;
 }
 
-/* Container principal do site (cartão branco) */
 .container {
     max-width: 500px;
     margin: 0 auto;
@@ -17,7 +16,6 @@ body {
     border-top: 10px solid #5d2a61; /* Roxo da marca */
 }
 
-/* Cabeçalho e Logo */
 header {
     text-align: center;
     margin-bottom: 20px;
@@ -25,6 +23,10 @@ header {
 
 .logo-topo {
     width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid #5d2a61;
+    object-fit: cover;
 }
 
 h1 {
@@ -33,7 +35,19 @@ h1 {
     margin: 5px 0;
 }
 
-/* Estilo geral de rótulos e campos de entrada */
+/* 2. ÁREA DE INSTRUÇÕES (NOVO ESTILO) */
+.instrucao-topo {
+    font-size: 13px;
+    color: #666;
+    background: #fdf5ff; /* Roxo clarinho */
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 10px;
+    border-left: 4px solid #5d2a61;
+    text-align: left;
+}
+
+/* 3. CAMPOS DE ENTRADA (MANTIDO SEU PADRÃO) */
 label {
     display: block;
     margin-top: 15px;
@@ -47,11 +61,10 @@ input, select, textarea {
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+    box-sizing: border-box;
     font-size: 16px;
 }
 
-/* Caixa onde o cliente monta o açaí */
 .product-box {
     background: #fdfbff;
     border: 1px solid #e0d0e3;
@@ -60,7 +73,7 @@ input, select, textarea {
     margin-top: 10px;
 }
 
-/* Seção de adicionais com rolagem (scroll) */
+/* 4. ADICIONAIS (MANTIDO SEU ESPAÇAMENTO PERFEITO) */
 .topping-section {
     max-height: 250px;
     overflow-y: auto;
@@ -71,7 +84,6 @@ input, select, textarea {
     margin: 10px 0;
 }
 
-/* Títulos de preço dentro dos adicionais */
 .price-header {
     color: #5d2a61;
     font-weight: bold;
@@ -80,7 +92,6 @@ input, select, textarea {
     font-size: 14px;
 }
 
-/* Estilo dos checkboxes e seus textos */
 .topping-section label {
     font-weight: normal;
     margin-top: 8px;
@@ -95,54 +106,81 @@ input, select, textarea {
     margin-top: 0;
 }
 
-/* Botão "Adicionar à Sacola" */
-.btn-add {
+/* 5. ÁREA: COMO DESEJA RECEBER? (NOVO ESTILO) */
+.delivery-type-box {
+    display: flex;
+    gap: 15px;
+    margin-top: 8px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.delivery-type-box label {
+    font-weight: normal;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.delivery-type-box input {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Caixa de Informação de Retirada */
+.info-box {
+    background-color: #e7f3ff;
+    border: 1px solid #2196f3;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #0d47a1;
+}
+
+/* 6. PAGAMENTO E PIX (NOVO ESTILO) */
+.pix-box {
+    background-color: #e6fcf5;
+    border: 1px solid #20c997;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.copy-pix {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.btn-copy {
     background: #5d2a61;
     color: white;
     border: none;
-    padding: 12px;
-    width: 100%;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.2s;
 }
 
-.btn-add:hover {
-    background: #4a214d;
-}
-
-/* Seção da Sacola (Carrinho) */
-.cart-container {
-    background: #fafafa;
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 20px;
-    border: 1px dashed #ccc;
-}
-
-#cart-list {
-    list-style: none;
-    padding: 0;
-}
-
-.cart-item {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-/* Classes para campos ocultos (Troco) */
-.hidden-field {
-    display: none; /* Escondido por padrão */
-    margin-top: 10px;
-    background: #fff9db; /* Fundo amarelo suave */
+.qr-code-area {
+    background: #fff;
     padding: 10px;
-    border-radius: 8px;
+    display: inline-block;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
-/* Alinhamento dos botões de rádio (Sim/Não) */
+/* Área de Dinheiro/Troco */
 .radio-group {
     display: flex;
     gap: 20px;
@@ -159,7 +197,35 @@ input, select, textarea {
     margin-right: 5px;
 }
 
-/* Exibição do Total Geral */
+/* 7. SACOLA E BOTÕES (MANTIDO SEU PADRÃO) */
+.cart-container {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    border: 1px dashed #ccc;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.btn-remove {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
 .total-display {
     background: #5d2a61;
     color: white;
@@ -171,7 +237,18 @@ input, select, textarea {
     margin-top: 20px;
 }
 
-/* Botão principal "Finalizar" (Verde WhatsApp) */
+.btn-add {
+    background: #5d2a61;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .btn-send {
     width: 100%;
     background: #25d366;
@@ -183,39 +260,7 @@ input, select, textarea {
     font-weight: bold;
     margin-top: 15px;
     cursor: pointer;
-    transition: background 0.2s;
 }
 
-.btn-send:hover {
-    background: #1ebe57;
-}
-
-/* Ajuste para alinhar o texto à esquerda e o botão à direita */
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.cart-item-info {
-    flex: 1; /* Ocupa o máximo de espaço para empurrar o botão */
-}
-
-/* Estilo do botão Remover */
-.btn-remove {
-    background: #ff4d4d; /* Vermelho */
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background 0.2s;
-}
-
-.btn-remove:hover {
-    background: #cc0000;
-}
+/* UTILITÁRIOS */
+.hidden-field { display: none; }
