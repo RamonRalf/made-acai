@@ -51,27 +51,10 @@
                     <label class="check-container"><input type="checkbox" class="topping" value="Raspas de Chocolate" data-price="2.5"> Raspas de Chocolate</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Granola" data-price="2.5"> Granola</label>
 
-                    <p class="price-header">R$ 3,50 cada:</p>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Leite Condensado" data-price="3.5"> Leite Condensado</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Leite em Pó" data-price="3.5"> Leite em Pó</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Disquete/MMs" data-price="3.5"> Disquete/MM's</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Ovomaltine" data-price="3.5"> Ovomaltine</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Paçoca Original" data-price="3.5"> Paçoca Original</label>
-
-                    <p class="price-header">R$ 4,00 cada:</p>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Morango" data-price="4"> Morango</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Paçoca" data-price="4"> Creme de Paçoca</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Ovomaltine" data-price="4"> Creme de Ovomaltine</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Ninho" data-price="4"> Creme de Ninho</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Maracujá" data-price="4"> Creme de Maracujá</label>
-
-                    <p class="price-header">R$ 8,00 cada:</p>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Nutella Original" data-price="8"> Nutella Original</label>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Whey Protein" data-price="8"> Whey Protein</label>
-                </div>
+                    </div>
 
                 <label for="obs">Observações (Opcional):</label>
-                <input type="text" id="obs" placeholder="">
+                <input type="text" id="obs" placeholder="Ex: Sem granola...">
 
                 <button type="button" class="btn-add" onclick="addItemToCart()">➕ Adicionar à Sacola</button>
             </div>
@@ -89,44 +72,31 @@
 
             <div id="address-section">
                 <label for="street">Rua/Endereço:</label>
-                <input type="text" id="street" placeholder="Nome da rua ou avenida">
+                <input type="text" id="street" placeholder="Nome da rua">
 
-                <div class="inline-fields">
+                <div class="inline-fields" style="display: flex; gap: 10px;">
                     <div style="flex: 1;">
                         <label for="number">Número:</label>
                         <input type="text" id="number" placeholder="Ex: 516">
                     </div>
                     <div style="flex: 2;">
                         <label for="neighborhood">Bairro:</label>
-                        <input type="text" id="neighborhood" placeholder="Ex: Morro Vermelho">
+                        <input type="text" id="neighborhood" placeholder="Ex: Centro">
                     </div>
                 </div>
 
-                <label for="complement">Complemento (Opcional):</label>
-                <input type="text" id="complement" placeholder="Apt, Casa fundos...">
-
                 <label for="refPoint">Ponto de Referência:</label>
-                <input type="text" id="refPoint" placeholder="Ex: Próximo à mercearia">
+                <input type="text" id="refPoint" placeholder="Ex: Próximo à praça">
             </div>
 
             <div id="pickup-info" class="hidden-field info-box">
                 <p>📍 <strong>Retirada (Grátis)</strong><br>
                 Pedro Francisco da Costa, nº 516, Morro Vermelho.<br>
                 (Em frente à mercearia, placa da Madê).</p>
-        <div class="map-container">
-    <iframe 
-        class="mapa-maca"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14908.431798675221!2d-44.09313833222642!3d-20.907976163888353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa19f38d63a086f%3A0x150b560e827b018e!2sR.%20Pedro%20Francisco%20da%20Costa%2C%20516%2C%20Lagoa%20Dourada%20-%20MG%2C%2036345-000!5e0!3m2!1spt-BR!2sbr!4v1774826649056!5m2!1spt-BR!2sbr" 
-        width="600" 
-        height="450" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade"> 
-    </iframe>
-    </div>
-
-            <label for="payment">Forma de Pagamento:</label>
+                <div class="map-container">
+                    <iframe class="mapa-maca" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3716.241517540209!2d-44.3315264!3d-21.340916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDIwJzI3LjMiUyA0NMKwMTknNTMuNSJX!5e0!3m2!1spt-BR!2sbr!4v1711750000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div> <label for="payment">Forma de Pagamento:</label>
             <select id="payment" onchange="handlePaymentChange()" required>
                 <option value="">Selecione...</option>
                 <option value="Pix">Pix</option>
@@ -142,7 +112,6 @@
                 </div>
                 <div class="qr-code-area">
                     <img src="qrcode-pix.jpeg" alt="QR Code Pix" width="150">
-                    <p style="margin-top: 8px;"><small>Aponte a câmera para pagar!</small></p>
                 </div>
             </div>
 
