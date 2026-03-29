@@ -271,4 +271,22 @@ input, select, textarea {
     margin-left: 10px; 
 }
 
+/* Container que arredonda o mapa */
+.map-container {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 12px;
+    overflow: hidden; /* Isso aqui é o que corta as pontas do mapa */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* O mapa em si */
+.mapa-maca {
+    width: 100%;      /* Ocupa toda a largura da caixa azul */
+    height: 200px;    /* Altura fixa ideal para celular */
+    border: none;     /* Substitui o style="border:0" do HTML */
+    display: block;
+    filter: grayscale(0.2);
+}
+
 .hidden-field { display: none; }
