@@ -262,5 +262,28 @@ input, select, textarea {
     cursor: pointer;
 }
 
+/* Deixa o item clarinho e com ícone de "proibido" */
+.check-container.unavailable {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: #888;
+}
+
+/* Garante que o clique não funcione de jeito nenhum */
+.check-container.unavailable input {
+    pointer-events: none;
+}
+
+/* Etiqueta vermelha escrita ESGOTADO */
+.sold-out-badge {
+    background-color: #d9534f;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 10px;
+}
 /* UTILITÁRIOS */
 .hidden-field { display: none; }
