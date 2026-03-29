@@ -93,6 +93,17 @@
                     <input type="text" id="changeValue" placeholder="Troco para quanto?">
                 </div>
             </div>
+            <div id="pix-options" class="hidden-field pix-box">
+    <p><strong>Pague via Pix:</strong></p>
+    <div class="copy-pix">
+        <span id="pix-key">329998207289</span> <button type="button" onclick="copyPixKey()" class="btn-copy">Copiar Chave 📋</button>
+    </div>
+    <p><small>Após pagar, finalize o pedido abaixo e envie o comprovante no WhatsApp.</small></p>
+    
+    <div class="qr-code-area">
+        <img src="qrcode-pix.jpeg" alt="QR Code Pix Madê Açaí" width="180">
+    </div>
+</div>
 
             <div class="total-display">
                 Total Geral: R$ <span id="totalValue">0,00</span>
