@@ -109,7 +109,7 @@ function resetSelections() {
 
 // 4. ENVIO PARA O WHATSAPP (COM SUPER ESPAÇAMENTO)
 function sendOrder() {
-    const phoneNumber = "55329XXXXXXXX"; // Coloque o número real aqui!
+    const phoneNumber = "5532998207289"; // Coloque o número real aqui!
     const name = document.getElementById('name').value;
     const address = document.getElementById('address').value;
     const payment = document.getElementById('payment').value;
