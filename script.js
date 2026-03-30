@@ -2,19 +2,50 @@
 let cart = [];
 const TAXA_ENTREGA = 4.00;
 
-// --- 2. GESTÃO DA SACOLA (CARRINHO) ---
+// --- 2. SUBTOTAL EM TEMPO REAL ---
+
+function updateItemSubtotal() {
+    const sizeSelect = document.getElementById('size');
+    const subtotalBox = document.getElementById('item-subtotal');
+    const subtotalValue = document.getElementById('item-subtotal-value');
+
+    const sizePrice = parseFloat(sizeSelect.value) || 0;
+    let toppingsPrice = 0;
+
+    document.querySelectorAll('.topping:checked:not(:disabled)').forEach(item => {
+        toppingsPrice += parseFloat(item.getAttribute('data-price'));
+    });
+
+    const total = sizePrice + toppingsPrice;
+
+    if (total > 0) {
+        subtotalBox.style.display = 'block';
+        subtotalValue.innerText = total.toFixed(2).replace('.', ',');
+    } else {
+        subtotalBox.style.display = 'none';
+    }
+}
+
+// Escuta mudanças no tamanho e nos adicionais para atualizar subtotal
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('size').addEventListener('change', updateItemSubtotal);
+    document.querySelectorAll('.topping').forEach(cb => {
+        cb.addEventListener('change', updateItemSubtotal);
+    });
+});
+
+// --- 3. GESTÃO DA SACOLA (CARRINHO) ---
 
 function addItemToCart() {
     const sizeSelect = document.getElementById('size');
-    if (sizeSelect.value === "0") { 
-        alert("⚠️ Por favor, selecione o tamanho do açaí!"); 
-        return; 
+    if (sizeSelect.value === "0") {
+        alert("⚠️ Por favor, selecione o tamanho do açaí!");
+        return;
     }
 
     let toppings = [];
     let toppingsPrice = 0;
 
-    // Captura apenas os adicionais marcados e disponíveis
     document.querySelectorAll('.topping:checked:not(:disabled)').forEach(item => {
         toppings.push(item.value);
         toppingsPrice += parseFloat(item.getAttribute('data-price'));
@@ -40,17 +71,29 @@ function addItemToCart() {
     });
 
     updateCartUI();
-    
+
     // Limpa campos após adicionar
     sizeSelect.value = "0";
     document.getElementById('obs').value = "";
     document.querySelectorAll('.topping').forEach(cb => cb.checked = false);
+    document.getElementById('item-subtotal').style.display = 'none';
+
+    // Exibe toast de confirmação
+    showAddToast();
+}
+
+function showAddToast() {
+    const toast = document.getElementById('add-toast');
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 2500);
 }
 
 function removeItem(index) {
     const itemRemovido = cart[index];
 
-    // MONITORAMENTO: Remoção (Análise de desistência)
+    // MONITORAMENTO: Remoção
     if (itemRemovido && typeof gtag === 'function') {
         gtag('event', 'remove_from_cart', {
             'item_name': itemRemovido.name,
@@ -97,7 +140,7 @@ function updateCartUI() {
     totalDisplay.innerText = totalFinal.toFixed(2).replace('.', ',');
 }
 
-// --- 3. INTERFACE E PAGAMENTO ---
+// --- 4. INTERFACE E PAGAMENTO ---
 
 function handlePaymentChange() {
     const payment = document.getElementById('payment').value;
@@ -122,24 +165,37 @@ function handleDeliveryOption() {
     updateCartUI();
 }
 
-// --- 4. ENVIO E MONITORAMENTO DE RECORRÊNCIA ---
+// --- 5. ENVIO E MONITORAMENTO DE RECORRÊNCIA ---
 
 function sendOrder() {
-    const name = document.getElementById('name').value;
+    const name = document.getElementById('name').value.trim();
     const payment = document.getElementById('payment').value;
     const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
 
     if (cart.length === 0) { alert("Sua sacola está vazia!"); return; }
     if (!name || !payment) { alert("Preencha seu nome e a forma de pagamento!"); return; }
 
-    // Lógica de Recorrência (Identifica se já pediu neste navegador antes)
+    // Validação do endereço de entrega
+    if (deliveryType === 'entrega') {
+        const street = document.getElementById('street').value.trim();
+        const number = document.getElementById('number').value.trim();
+        const neighborhood = document.getElementById('neighborhood').value.trim();
+        const refPoint = document.getElementById('refPoint').value.trim();
+
+        if (!street || !number || !neighborhood || !refPoint) {
+            alert("⚠️ Por favor, preencha o endereço completo para entrega!");
+            return;
+        }
+    }
+
+    // Lógica de Recorrência
     const jaPediuAntes = localStorage.getItem('made_acai_recorrente');
     const statusCliente = jaPediuAntes ? 'Recorrente' : 'Novo';
 
     const totalFinalStr = document.getElementById('totalValue').innerText;
     const valorNumerico = parseFloat(totalFinalStr.replace(',', '.'));
 
-    // MONITORAMENTO: Conversão de Venda e Tipo de Cliente
+    // MONITORAMENTO: Conversão de Venda
     if (typeof gtag === 'function') {
         gtag('event', 'purchase', {
             'transaction_id': 'T_' + new Date().getTime(),
@@ -156,23 +212,20 @@ function sendOrder() {
 
     let addressMsg = "";
     if (deliveryType === 'entrega') {
-        const street = document.getElementById('street').value;
-        const number = document.getElementById('number').value;
-        const neighborhood = document.getElementById('neighborhood').value;
-        const refPoint = document.getElementById('refPoint').value;
+        const street = document.getElementById('street').value.trim();
+        const number = document.getElementById('number').value.trim();
+        const neighborhood = document.getElementById('neighborhood').value.trim();
+        const complement = document.getElementById('complement').value.trim();
+        const refPoint = document.getElementById('refPoint').value.trim();
 
-        if (!street || !number || !neighborhood || !refPoint) {
-            alert("⚠️ Por favor, preencha o endereço completo para entrega!");
-            return;
-        }
-        addressMsg = `📍 *ENTREGA:* ${street}, nº ${number}\n🏘️ *BAIRRO:* ${neighborhood}\n🗺️ *REF:* ${refPoint}`;
+        addressMsg = `📍 *ENTREGA:* ${street}, nº ${number}\n🏘️ *BAIRRO:* ${neighborhood}${complement ? '\n🏠 *COMPLEMENTO:* ' + complement : ''}\n🗺️ *REF:* ${refPoint}`;
     } else {
         addressMsg = `🏠 *RETIRADA NO LOCAL*`;
     }
 
     let itemsMsg = "";
     cart.forEach((item, i) => {
-        itemsMsg += `*${i+1}º Açaí:* ${item.name}\n+ Extras: ${item.toppings.join(', ') || 'Nenhum'}\n${item.obs ? `Obs: ${item.obs}\n` : ''}\n`;
+        itemsMsg += `*${i + 1}º Açaí:* ${item.name}\n+ Extras: ${item.toppings.join(', ') || 'Nenhum'}\n${item.obs ? `Obs: ${item.obs}\n` : ''}\n`;
     });
 
     let payDetail = payment;
@@ -181,7 +234,7 @@ function sendOrder() {
         payDetail += needChange === 'sim' ? ` (Troco para R$ ${document.getElementById('changeValue').value})` : ` (Sem troco)`;
     }
 
-    const message = 
+    const message =
         `*🍧 NOVO PEDIDO - MADÊ AÇAÍ*` + `\n\n` +
         `👤 *CLIENTE:* ${name}\n` +
         `🔄 *TIPO:* ${statusCliente === 'Recorrente' ? 'Cliente Antigo' : 'Primeiro Pedido'}\n\n` +
@@ -190,14 +243,12 @@ function sendOrder() {
         `💳 *PAGAMENTO:* ${payDetail}\n\n` +
         `💰 *TOTAL GERAL: R$ ${totalFinalStr}*`;
 
-    // Abre o WhatsApp com o número do Rodrigo
     window.open(`https://wa.me/553299995869?text=${encodeURIComponent(message)}`, '_blank');
 }
-window.addEventListener("load", function() {
+
+window.addEventListener("load", function () {
     const loader = document.getElementById("loader-container");
-    
-    // Espera 2 segundos (tempo dos 3 pulos) e esconde o loader
     setTimeout(() => {
         loader.classList.add("loader-hidden");
-    }, 2000); 
+    }, 2000);
 });
