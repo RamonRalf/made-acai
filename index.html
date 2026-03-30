@@ -18,11 +18,10 @@
 </head>
 <body>
     <div id="loader-container">
-    <img src="Madê_Açaí.jpeg" id="logo-jump" alt="Madê Açaí Logo">
-</div>
+        <img src="Madê_Açaí.jpeg" id="logo-jump" alt="Madê Açaí Logo">
+    </div>
     <div class="container">
         <header>
-            <!--<div id="status-bar" class="status-bar">Verificando horário...</div>--> 
             <img src="Madê_Açaí.jpeg" alt="Madê Açaí" class="logo-topo">
             <div class="img"> <img src="Madê.jpeg" alt=""></div>
             <div class="instrucao-topo">
@@ -44,6 +43,11 @@
                     <option value="24">1000 ml - R$ 24,00</option>
                 </select>
 
+                <!-- Subtotal em tempo real -->
+                <div id="item-subtotal" class="item-subtotal-box" style="display:none;">
+                    Subtotal do item: R$ <span id="item-subtotal-value">0,00</span>
+                </div>
+
                 <label>Adicionais (opcional):</label>
                 <div class="topping-section">
                     <p class="price-header">R$ 2,00 cada:</p>
@@ -53,7 +57,7 @@
                     <label class="check-container"><input type="checkbox" class="topping" value="Aveia" data-price="2"> Aveia</label>
 
                     <p class="price-header">R$ 2,50 cada:</p>
-                    <label class="check-container"><input type="checkbox" class="topping" value="Banana" data-price="2.5"> Banana </span></label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Banana" data-price="2.5"> Banana</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Biscoito Oreo" data-price="2.5"> Biscoito Oreo</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Farinha Láctea" data-price="2.5"> Farinha Láctea</label>
                     <label class="check-container"><input type="checkbox" class="topping" value="Raspas de Chocolate" data-price="2.5"> Raspas de Chocolate</label>
@@ -82,6 +86,8 @@
                 <input type="text" id="obs" placeholder="">
 
                 <button type="button" class="btn-add" onclick="addItemToCart()">➕ Adicionar à Sacola</button>
+                <!-- Toast de confirmação -->
+                <div id="add-toast" class="add-toast" style="display:none;">✅ Item adicionado à sacola!</div>
             </div>
 
             <div class="cart-container">
@@ -122,7 +128,7 @@
                 Pedro Francisco da Costa, nº 516, Morro Vermelho.<br>
                 (Em frente à mercearia, placa da Madê).</p>
                 <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14908.431798675221!2d-44.09313833222642!3d-20.907976163888353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa19f38d63a086f%3A0x150b560e827b018e!2sR.%20Pedro%20Francisco%20da%20Costa%2C%20516%2C%20Lagoa%20Dourada%20-%20MG%2C%2036345-000!5e0!3m2!1spt-BR!2sbr!4v1774829445329!5m2!1spt-BR!2sbr" width="600" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14908.431798675221!2d-44.09313833222642!3d-20.907976163888353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa19f38d63a086f%3A0x150b560e827b018e!2sR.%20Pedro%20Francisco%20da%20Costa%2C%20516%2C%20Lagoa%20Dourada%20-%20MG%2C%2036345-000!5e0!3m2!1spt-BR!2sbr!4v1774829445329!5m2!1spt-BR!2sbr" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
 
