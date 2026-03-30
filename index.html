@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madê Açaí Delivery - Pedido Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!--<div id="status-bar" class="status-bar">Verificando horário...</div>--> 
+            <img src="Madê_Açaí.jpeg" alt="Madê Açaí" class="logo-topo">
+            <div class="img"> <img src="Madê.jpeg" alt=""></div>
+            <div class="instrucao-topo">
+                ✨ <strong>Escolha o tamanho</strong> (obrigatório) <strong>e adicionais </strong> (opcional).<br>
+                🛒 <strong>Clique em "adicionar a sacola" para cada novo açaí que desejar.</strong>
+            </div>
+        </header>
+        
+        <form id="orderForm">
+            <label for="name">Seu Nome:</label>
+            <input type="text" id="name" placeholder="Como você quer ser chamado?" required>
+
+            <div class="product-box">
+                <label for="size">Tamanho (obrigatório):</label>
+                <select id="size">
+                    <option value="0">Selecione o tamanho...</option>
+                    <option value="6">250 ml - R$ 6,00</option>
+                    <option value="12">500 ml - R$ 12,00</option>
+                    <option value="24">1000 ml - R$ 24,00</option>
+                </select>
+
+                <label>Adicionais (opcional):</label>
+                <div class="topping-section">
+                    <p class="price-header">R$ 2,00 cada:</p>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Biscoito Negresco" data-price="2"> Biscoito Negresco</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Granulado Preto" data-price="2"> Granulado Preto</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Canudinho Recheado" data-price="2"> Canudinho Recheado</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Aveia" data-price="2"> Aveia</label>
+
+                    <p class="price-header">R$ 2,50 cada:</p>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Banana" data-price="2.5"> Banana </span></label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Biscoito Oreo" data-price="2.5"> Biscoito Oreo</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Farinha Láctea" data-price="2.5"> Farinha Láctea</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Raspas de Chocolate" data-price="2.5"> Raspas de Chocolate</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Granola" data-price="2.5"> Granola</label>
+
+                    <p class="price-header">R$ 3,50 cada:</p>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Leite Condensado" data-price="3.5"> Leite Condensado</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Leite em Pó" data-price="3.5"> Leite em Pó</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Disquete/MMs" data-price="3.5"> Disquete/MM's</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Ovomaltine" data-price="3.5"> Ovomaltine</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Paçoca Original" data-price="3.5"> Paçoca Original</label>
+
+                    <p class="price-header">R$ 4,00 cada:</p>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Morango" data-price="4"> Morango</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Paçoca" data-price="4"> Creme de Paçoca</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Ovomaltine" data-price="4"> Creme de Ovomaltine</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Ninho" data-price="4"> Creme de Ninho</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Creme de Maracujá" data-price="4"> Creme de Maracujá</label>
+
+                    <p class="price-header">R$ 8,00 cada:</p>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Nutella Original" data-price="8"> Nutella Original</label>
+                    <label class="check-container"><input type="checkbox" class="topping" value="Whey Protein" data-price="8"> Whey Protein</label>
+                </div>
+
+                <label for="obs">Observações do pedido (opcional):</label>
+                <input type="text" id="obs" placeholder="">
+
+                <button type="button" class="btn-add" onclick="addItemToCart()">➕ Adicionar à Sacola</button>
+            </div>
+
+            <div class="cart-container">
+                <h3>🛒 Sua Sacola:</h3>
+                <ul id="cart-list"><li class="empty-msg">Sua sacola está vazia...</li></ul>
+            </div>
+
+            <label>Como deseja receber?</label>
+            <div class="delivery-type-box">
+                <label><input type="radio" name="deliveryType" value="entrega" checked onchange="handleDeliveryOption()"> Entrega (+R$ 4,00)</label>
+                <label><input type="radio" name="deliveryType" value="retirada" onchange="handleDeliveryOption()"> Retirada (Grátis)</label>
+            </div>
+
+            <div id="address-section">
+                <label for="street">Rua/Endereço:</label>
+                <input type="text" id="street" placeholder="Nome da rua">
+
+                <div class="inline-fields" style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label for="number">Número:</label>
+                        <input type="text" id="number" placeholder="Ex: 516">
+                    </div>
+                    <div style="flex: 2;">
+                        <label for="neighborhood">Bairro:</label>
+                        <input type="text" id="neighborhood" placeholder="Ex: Centro">
+                    </div>
+                </div>
+
+                <label for="complement">Complemento (Opcional):</label>
+                <input type="text" id="complement" placeholder="Apt, Casa fundos...">
+
+                <label for="refPoint">Ponto de Referência:</label>
+                <input type="text" id="refPoint" placeholder="Ex: Próximo à praça">
+            </div>
+
+            <div id="pickup-info" class="hidden-field info-box">
+                <p>📍 <strong>Retirada (Grátis)</strong><br>
+                Pedro Francisco da Costa, nº 516, Morro Vermelho.<br>
+                (Em frente à mercearia, placa da Madê).</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14908.431798675221!2d-44.09313833222642!3d-20.907976163888353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa19f38d63a086f%3A0x150b560e827b018e!2sR.%20Pedro%20Francisco%20da%20Costa%2C%20516%2C%20Lagoa%20Dourada%20-%20MG%2C%2036345-000!5e0!3m2!1spt-BR!2sbr!4v1774829445329!5m2!1spt-BR!2sbr" width="600" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <label for="payment">Forma de Pagamento:</label>
+            <select id="payment" onchange="handlePaymentChange()" required>
+                <option value="">Selecione...</option>
+                <option value="Pix">Pix</option>
+                <option value="Cartão">Cartão (Todas as bandeiras 💳)</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select>
+
+            <div id="pix-options" class="hidden-field pix-box">
+                <p><strong>Favorecido: Rodrigo Emanuel da Silva</strong></p>
+                <div class="copy-pix">
+                    <p style="margin-top: 8px;"><small>Chave pix: celular</small></p>
+                    <span id="pix-key">32998346183</span>
+                    <button type="button" onclick="copyPixKey()" class="btn-copy">Copiar 📋</button>
+                </div>
+            </div>
+
+            <div id="cash-options" class="hidden-field">
+                <label>Precisa de Troco?</label>
+                <div class="radio-group" style="display: flex; gap: 20px; margin-top: 5px;">
+                    <label style="font-weight: normal;"><input type="radio" name="needChange" value="nao" checked onchange="toggleChangeInput()"> Não</label>
+                    <label style="font-weight: normal;"><input type="radio" name="needChange" value="sim" onchange="toggleChangeInput()"> Sim</label>
+                </div>
+                <div id="change-input-div" class="hidden-field">
+                    <input type="text" id="changeValue" placeholder="Troco para quanto?">
+                </div>
+            </div>
+
+            <div class="total-display">
+                Total Geral: R$ <span id="totalValue">0,00</span>
+            </div>
+
+            <button type="button" id="btn-finalizar" class="btn-send" onclick="sendOrder()">Finalizar no WhatsApp 🛵</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
