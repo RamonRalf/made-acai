@@ -35,58 +35,37 @@ header {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 15px 0; /* Reduzi um pouco para ganhar espaço vertical no celular */
+    margin: 15px 0;
 }
 
 /* Ajuste da Imagem (O Nome "Madê") */
 .img img {
-    width: 280px;      /* Tamanho fixo para Computador */
-    height: auto;      
-    max-width: 90%;    /* Garante que no celular ela não encoste nas bordas */
+    width: 280px;
+    height: auto;
+    max-width: 90%;
     display: block;
     image-rendering: -webkit-optimize-contrast;
-    transition: width 0.3s ease; /* Transição suave se girar a tela */
+    transition: width 0.3s ease;
 }
 
 /* --- AJUSTE EXCLUSIVO PARA CELULAR --- */
 @media (max-width: 480px) {
     .img img {
-        width: 200px;  /* No celular, o nome Madê fica com 200px (mais equilibrado) */
+        width: 200px;
     }
     
     .logo-topo {
-        width: 80px;   /* Diminui um pouco o círculo no celular para não empurrar tudo pra baixo */
+        width: 80px;
         height: 80px;
     }
 
     .instrucao-topo {
-        font-size: 12px; /* Diminui a letra da instrução para caber em menos linhas */
+        font-size: 12px;
         padding: 10px;
     }
 }
 
-/* --- 2. COMPONENTES DE STATUS E INSTRUÇÃO --- */
-.status-bar {
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.status-open { 
-    background-color: #d4edda; 
-    color: #155724; 
-    border: 1px solid #c3e6cb; 
-}
-
-.status-closed { 
-    background-color: #f8d7da; 
-    color: #721c24; 
-    border: 1px solid #f5c6cb; }
-
+/* --- 2. INSTRUÇÃO --- */
 .instrucao-topo {
     font-size: 13px;
     color: #666;
@@ -129,7 +108,39 @@ input, select, textarea {
     margin-top: 10px;
 }
 
-/* --- 4. ADICIONAIS --- */
+/* --- 4. SUBTOTAL EM TEMPO REAL --- */
+.item-subtotal-box {
+    background: #f3eaff;
+    border: 1px solid #c9a8d9;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #5d2a61;
+    text-align: center;
+}
+
+/* --- 5. TOAST DE CONFIRMAÇÃO --- */
+.add-toast {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    animation: fadeInOut 0.3s ease;
+}
+
+@keyframes fadeInOut {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 6. ADICIONAIS --- */
 .topping-section {
     max-height: 250px;
     overflow-y: auto;
@@ -138,6 +149,18 @@ input, select, textarea {
     border-radius: 8px;
     border: 1px solid #eee;
     margin: 10px 0;
+}
+
+/* Indicador visual de scroll nos adicionais */
+.topping-section::after {
+    content: '▼ role para ver mais';
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    padding-top: 6px;
+    border-top: 1px dashed #eee;
+    margin-top: 4px;
 }
 
 .price-header {
@@ -158,9 +181,10 @@ input, select, textarea {
 .topping-section input { 
     width: 18px; 
     height: 18px; 
-    margin-right: 10px; }
+    margin-right: 10px;
+}
 
-/* --- 5. ENTREGA E PAGAMENTO --- */
+/* --- 7. ENTREGA E PAGAMENTO --- */
 .delivery-type-box, .radio-group {
     display: flex;
     gap: 15px;
@@ -190,7 +214,8 @@ input, select, textarea {
     padding: 12px; 
     border-radius: 10px; 
     margin-top: 10px; 
-    font-size: 13px; color: #0d47a1; 
+    font-size: 13px;
+    color: #0d47a1; 
 }
 
 .pix-box { 
@@ -224,7 +249,7 @@ input, select, textarea {
     cursor: pointer; 
 }
 
-/* --- 6. CARRINHO E BOTÕES --- */
+/* --- 8. CARRINHO E BOTÕES --- */
 .cart-container { 
     background: #fafafa; 
     padding: 15px; 
@@ -285,9 +310,10 @@ input, select, textarea {
     font-size: 18px; 
     font-weight: bold; 
     margin-top: 15px; 
-    cursor: pointer; }
+    cursor: pointer;
+}
 
-/* --- 7. ESTADOS ESPECIAIS --- */
+/* --- 9. ESTADOS ESPECIAIS --- */
 .check-container.unavailable { 
     opacity: 0.5; 
     cursor: not-allowed; 
@@ -308,24 +334,24 @@ input, select, textarea {
     margin-left: 10px; 
 }
 
-/* Container que arredonda o mapa */
+/* --- 10. MAPA --- */
 .map-container {
     width: 100%;
     margin-top: 15px;
     border-radius: 12px;
-    overflow: hidden; /* Isso aqui é o que corta as pontas do mapa */
+    overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* O mapa em si */
-.mapa-maca {
-    width: 100%;      /* Ocupa toda a largura da caixa azul */
-    height: 200px;    /* Altura fixa ideal para celular */
-    border: none;     /* Substitui o style="border:0" do HTML */
+.map-container iframe {
+    width: 100%;
+    height: 200px;
+    border: none;
     display: block;
     filter: grayscale(0.2);
 }
-/* Estilo do Container que cobre a tela toda */
+
+/* --- 11. LOADER --- */
 #loader-container {
     position: fixed;
     top: 0;
@@ -336,26 +362,24 @@ input, select, textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Fica por cima de tudo (z-index alto) */
+    z-index: 9999;
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-/* Animação do Pulo e Formato Redondo (Selo) */
 #logo-jump {
-    width: 200px; /* Ajuste o tamanho da sua logo */
-    border-radius: 50%; /* Torna a imagem perfeitamente redonda */
-    border: 5px solid #FFFFFF; /* Adiciona uma borda branca de selo */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Adiciona uma sombra suave */
+    width: 200px;
+    border-radius: 50%;
+    border: 5px solid #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     animation: jump 0.6s ease-in-out;
-    animation-iteration-count: 3; /* Exatamente 3 pulos */
+    animation-iteration-count: 3;
 }
 
 @keyframes jump {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-70px); } /* Altura do pulo (aumentada para 70px) */
+    50% { transform: translateY(-70px); }
 }
 
-/* Classe para sumir com o loader */
 .loader-hidden {
     opacity: 0;
     visibility: hidden;
