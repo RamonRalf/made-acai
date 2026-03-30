@@ -6,7 +6,7 @@ const TAXA_ENTREGA = 4.00;
 // Aberto de Terça (2) a Domingo (0), das 14:00 às 22:00. Segunda (1) fechado.
 const DIAS_FECHADOS = [1]; 
 const HORA_ABERTURA = 14;
-const HORA_FECHAMENTO = 22;
+const HORA_FECHAMENTO = 00;
 
 // --- 2. LÓGICA DE HORÁRIO (Sincronizada com Brasília) ---
 function getBrazilTime() {
