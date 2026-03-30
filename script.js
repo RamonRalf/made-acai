@@ -148,10 +148,15 @@ function updateCartUI() {
 
 function handlePaymentChange() {
     const payment = document.getElementById('payment').value;
+    
     document.getElementById('cash-options').style.display = (payment === 'Dinheiro') ? 'block' : 'none';
     document.getElementById('pix-options').style.display = (payment === 'Pix') ? 'block' : 'none';
-}
 
+    // Chama a verificação do troco se for dinheiro
+    if (payment === 'Dinheiro') {
+        toggleChangeInput();
+    }
+}
 function toggleChangeInput() {
     const needChange = document.querySelector('input[name="needChange"]:checked').value;
     document.getElementById('change-input-div').style.display = (needChange === 'sim') ? 'block' : 'none';
