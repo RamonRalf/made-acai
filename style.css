@@ -66,7 +66,7 @@ header {
 }
 
 /* --- 2. INSTRUÇÃO --- */
-.instrucao-topo {
+.instrucao-topo, .instrucao-dinheiro {
     font-size: 13px;
     color: #666;
     background: #fdf5ff;
