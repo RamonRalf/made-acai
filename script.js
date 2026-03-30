@@ -2,47 +2,7 @@
 let cart = [];
 const TAXA_ENTREGA = 4.00;
 
-// Configuração de Funcionamento (Horário de Brasília)
-// Aberto de Terça (2) a Domingo (0), das 14:00 às 22:00. Segunda (1) fechado.
-// const DIAS_FECHADOS = [1]; 
-// const HORA_ABERTURA = 14;
-// const HORA_FECHAMENTO = 22;
-
-// --- 2. LÓGICA DE HORÁRIO (Sincronizada com Brasília) ---
-// function getBrazilTime() {
-//    const targetTimeZone = "America/Sao_Paulo";
-//    const spTimeStr = new Date().toLocaleString("en-US", { timeZone: targetTimeZone });
-//    return new Date(spTimeStr);
-// }
-
-// function checkStoreStatus() {
-//    const statusElement = document.getElementById('status-bar');
-//    const btnSend = document.querySelector('.btn-send');
-//    if (!statusElement || !btnSend) return;
-
-//    const now = getBrazilTime();
-//    const day = now.getDay(); 
-//    const hour = now.getHours();
-
-//    const isOpenDay = !DIAS_FECHADOS.includes(day);
-//    const isOpenHour = (hour >= HORA_ABERTURA && hour < HORA_FECHAMENTO);
-
-//    if (isOpenDay && isOpenHour) {
-//        statusElement.innerText = "🟢 ABERTO AGORA - PEÇA JÁ!";
-//        statusElement.className = "status-bar status-open";
-//        btnSend.disabled = false;
-//        btnSend.style.opacity = "1";
-//        btnSend.innerText = "Finalizar Pedido no WhatsApp 🛵";
-//    } else {
-//        statusElement.innerText = "🔴 FECHADO NO MOMENTO";
-//        statusElement.className = "status-bar status-closed";
-//        btnSend.disabled = true;
-//        btnSend.style.opacity = "0.5";
-//        btnSend.innerText = "Loja Fechada - Volte Amanhã 😴";
-//    }
-//}
-
-// --- 3. GESTÃO DA SACOLA (CARRINHO) ---
+// --- 2. GESTÃO DA SACOLA (CARRINHO) ---
 
 function addItemToCart() {
     const sizeSelect = document.getElementById('size');
@@ -54,28 +14,50 @@ function addItemToCart() {
     let toppings = [];
     let toppingsPrice = 0;
 
-    // Pega apenas os adicionais marcados que NÃO estão desativados (esgotados)
+    // Captura apenas os adicionais marcados e disponíveis
     document.querySelectorAll('.topping:checked:not(:disabled)').forEach(item => {
         toppings.push(item.value);
         toppingsPrice += parseFloat(item.getAttribute('data-price'));
     });
 
+    const itemPrice = parseFloat(sizeSelect.value) + toppingsPrice;
+    const itemName = sizeSelect.options[sizeSelect.selectedIndex].text;
+
+    // MONITORAMENTO: Adição ao carrinho
+    if (typeof gtag === 'function') {
+        gtag('event', 'add_to_cart', {
+            'item_name': itemName,
+            'value': itemPrice,
+            'currency': 'BRL'
+        });
+    }
+
     cart.push({
-        name: sizeSelect.options[sizeSelect.selectedIndex].text,
+        name: itemName,
         toppings: toppings,
         obs: document.getElementById('obs').value,
-        price: parseFloat(sizeSelect.value) + toppingsPrice
+        price: itemPrice
     });
 
     updateCartUI();
     
-    // Limpa os campos para o próximo item
+    // Limpa campos após adicionar
     sizeSelect.value = "0";
     document.getElementById('obs').value = "";
     document.querySelectorAll('.topping').forEach(cb => cb.checked = false);
 }
 
 function removeItem(index) {
+    const itemRemovido = cart[index];
+
+    // MONITORAMENTO: Remoção (Análise de desistência)
+    if (itemRemovido && typeof gtag === 'function') {
+        gtag('event', 'remove_from_cart', {
+            'item_name': itemRemovido.name,
+            'value': itemRemovido.price
+        });
+    }
+
     cart.splice(index, 1);
     updateCartUI();
 }
@@ -115,7 +97,7 @@ function updateCartUI() {
     totalDisplay.innerText = totalFinal.toFixed(2).replace('.', ',');
 }
 
-// --- 4. FORMULÁRIO E PAGAMENTO ---
+// --- 3. INTERFACE E PAGAMENTO ---
 
 function handlePaymentChange() {
     const payment = document.getElementById('payment').value;
@@ -140,7 +122,7 @@ function handleDeliveryOption() {
     updateCartUI();
 }
 
-// --- 5. ENVIO DO PEDIDO ---
+// --- 4. ENVIO E MONITORAMENTO DE RECORRÊNCIA ---
 
 function sendOrder() {
     const name = document.getElementById('name').value;
@@ -150,21 +132,40 @@ function sendOrder() {
     if (cart.length === 0) { alert("Sua sacola está vazia!"); return; }
     if (!name || !payment) { alert("Preencha seu nome e a forma de pagamento!"); return; }
 
-    let addressMsg = "";
+    // Lógica de Recorrência (Identifica se já pediu neste navegador antes)
+    const jaPediuAntes = localStorage.getItem('made_acai_recorrente');
+    const statusCliente = jaPediuAntes ? 'Recorrente' : 'Novo';
 
+    const totalFinalStr = document.getElementById('totalValue').innerText;
+    const valorNumerico = parseFloat(totalFinalStr.replace(',', '.'));
+
+    // MONITORAMENTO: Conversão de Venda e Tipo de Cliente
+    if (typeof gtag === 'function') {
+        gtag('event', 'purchase', {
+            'transaction_id': 'T_' + new Date().getTime(),
+            'value': valorNumerico,
+            'currency': 'BRL',
+            'customer_type': statusCliente,
+            'payment_type': payment,
+            'items': cart.map(item => ({ 'item_name': item.name, 'price': item.price }))
+        });
+    }
+
+    // Salva no navegador que o cliente já fez um pedido
+    localStorage.setItem('made_acai_recorrente', 'true');
+
+    let addressMsg = "";
     if (deliveryType === 'entrega') {
         const street = document.getElementById('street').value;
         const number = document.getElementById('number').value;
         const neighborhood = document.getElementById('neighborhood').value;
-        const complement = document.getElementById('complement').value;
         const refPoint = document.getElementById('refPoint').value;
 
         if (!street || !number || !neighborhood || !refPoint) {
-            alert("⚠️ Por favor, preencha todos os campos do endereço (Rua, Nº, Bairro e Referência)!");
+            alert("⚠️ Por favor, preencha o endereço completo para entrega!");
             return;
         }
-
-        addressMsg = `📍 *ENTREGA:* ${street}, nº ${number}\n🏘️ *BAIRRO:* ${neighborhood}\n🏢 *COMP:* ${complement || 'Não informado'}\n🗺️ *REF:* ${refPoint}`;
+        addressMsg = `📍 *ENTREGA:* ${street}, nº ${number}\n🏘️ *BAIRRO:* ${neighborhood}\n🗺️ *REF:* ${refPoint}`;
     } else {
         addressMsg = `🏠 *RETIRADA NO LOCAL*`;
     }
@@ -182,14 +183,21 @@ function sendOrder() {
 
     const message = 
         `*🍧 NOVO PEDIDO - MADÊ AÇAÍ*` + `\n\n` +
-        `👤 *CLIENTE:* ${name}\n\n` +
+        `👤 *CLIENTE:* ${name}\n` +
+        `🔄 *TIPO:* ${statusCliente === 'Recorrente' ? 'Cliente Antigo' : 'Primeiro Pedido'}\n\n` +
         `📦 *PRODUTOS:*` + `\n${itemsMsg}` +
         `${addressMsg}\n\n` +
         `💳 *PAGAMENTO:* ${payDetail}\n\n` +
-        `💰 *TOTAL GERAL: R$ ${document.getElementById('totalValue').innerText}*`;
+        `💰 *TOTAL GERAL: R$ ${totalFinalStr}*`;
 
-    window.open(`https://wa.me/5532998346183?text=${encodeURIComponent(message)}`, '_blank');
+    // Abre o WhatsApp com o número do Rodrigo
+    window.open(`https://wa.me/553299995869?text=${encodeURIComponent(message)}`, '_blank');
 }
-
-// Inicia a verificação de status ao carregar
-window.onload = checkStoreStatus;
+window.addEventListener("load", function() {
+    const loader = document.getElementById("loader-container");
+    
+    // Espera 2 segundos (tempo dos 3 pulos) e esconde o loader
+    setTimeout(() => {
+        loader.classList.add("loader-hidden");
+    }, 2000); 
+});
