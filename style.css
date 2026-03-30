@@ -29,24 +29,41 @@ header {
     object-fit: cover;
 }
 
-/* Container da Imagem do Logo */
+/* Container da imagem do nome */
 .img {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 20px 0; /* Espaço entre o círculo e o resto do conteúdo */
+    margin: 15px 0; /* Reduzi um pouco para ganhar espaço vertical no celular */
 }
 
-/* Ajuste do Tamanho da Imagem (Madê Açaí) */
+/* Ajuste da Imagem (O Nome "Madê") */
 .img img {
-    width: 280px;      /* Ajuste este valor para aumentar ou diminuir o nome */
-    height: auto;      /* Mantém a proporção para não achatar */
-    max-width: 100%;    /* Garante que não corte em telas de celular pequenas */
+    width: 280px;      /* Tamanho fixo para Computador */
+    height: auto;      
+    max-width: 90%;    /* Garante que no celular ela não encoste nas bordas */
     display: block;
     image-rendering: -webkit-optimize-contrast;
+    transition: width 0.3s ease; /* Transição suave se girar a tela */
 }
 
+/* --- AJUSTE EXCLUSIVO PARA CELULAR --- */
+@media (max-width: 480px) {
+    .img img {
+        width: 200px;  /* No celular, o nome Madê fica com 200px (mais equilibrado) */
+    }
+    
+    .logo-topo {
+        width: 80px;   /* Diminui um pouco o círculo no celular para não empurrar tudo pra baixo */
+        height: 80px;
+    }
+
+    .instrucao-topo {
+        font-size: 12px; /* Diminui a letra da instrução para caber em menos linhas */
+        padding: 10px;
+    }
+}
 /* --- 2. COMPONENTES DE STATUS E INSTRUÇÃO --- */
 .status-bar {
     padding: 10px;
