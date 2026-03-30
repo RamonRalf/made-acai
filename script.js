@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.topping').forEach(cb => {
         cb.addEventListener('change', updateItemSubtotal);
     });
+
+    // Define o estado inicial correto dos campos condicionais
+    handleDeliveryOption();
+    handlePaymentChange();
 });
 
 // --- 3. GESTÃO DA SACOLA (CARRINHO) ---
