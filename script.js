@@ -26,19 +26,103 @@ function updateItemSubtotal() {
     }
 }
 
-// Escuta mudanças no tamanho e nos adicionais para atualizar subtotal
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('size').addEventListener('change', updateItemSubtotal);
     document.querySelectorAll('.topping').forEach(cb => {
         cb.addEventListener('change', updateItemSubtotal);
     });
 
-    // Define o estado inicial correto dos campos condicionais
     handleDeliveryOption();
     handlePaymentChange();
 });
 
-// --- 3. GESTÃO DA SACOLA (CARRINHO) ---
+// --- 3. GA4: FUNÇÕES DE MONITORAMENTO ---
+
+function buildGA4Items(cartItems) {
+    return cartItems.map((item, index) => ({
+        item_id: 'acai_' + item.name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, ''),
+        item_name: item.name,
+        item_category: 'Açaí',
+        price: item.price,
+        quantity: 1,
+        index: index
+    }));
+}
+
+function generateTransactionId() {
+    const now = new Date();
+    const date = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const time = now.getTime().toString().slice(-6);
+    return 'MADE_' + date + '_' + time;
+}
+
+function trackAddToCart(itemName, itemPrice, sizeSelectValue, toppings) {
+    if (typeof gtag !== 'function') return;
+
+    gtag('event', 'add_to_cart', {
+        currency: 'BRL',
+        value: itemPrice,
+        items: [{
+            item_id: 'acai_' + sizeSelectValue,
+            item_name: itemName,
+            item_category: 'Açaí',
+            price: itemPrice,
+            quantity: 1
+        }],
+        toppings_selected: toppings.length > 0 ? toppings.join(', ') : 'nenhum',
+        toppings_count: toppings.length
+    });
+}
+
+function trackRemoveFromCart(removedItem) {
+    if (typeof gtag !== 'function') return;
+
+    gtag('event', 'remove_from_cart', {
+        currency: 'BRL',
+        value: removedItem.price,
+        items: [{
+            item_id: 'acai_' + removedItem.name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, ''),
+            item_name: removedItem.name,
+            item_category: 'Açaí',
+            price: removedItem.price,
+            quantity: 1
+        }]
+    });
+}
+
+function trackBeginCheckout(cartItems, totalValue) {
+    if (typeof gtag !== 'function') return;
+
+    gtag('event', 'begin_checkout', {
+        currency: 'BRL',
+        value: totalValue,
+        items: buildGA4Items(cartItems)
+    });
+}
+
+function trackPurchase(cartItems, totalValue, deliveryType, payment, isRecurring) {
+    if (typeof gtag !== 'function') return;
+
+    const isEntrega = deliveryType === 'entrega';
+    const shippingValue = isEntrega ? 4.00 : 0;
+
+    gtag('event', 'purchase', {
+        transaction_id: generateTransactionId(),
+        currency: 'BRL',
+        value: totalValue,
+        shipping: shippingValue,
+        tax: 0,
+        payment_type: payment,
+        items: buildGA4Items(cartItems)
+    });
+
+    gtag('event', 'customer_identified', {
+        customer_type: isRecurring ? 'recorrente' : 'novo',
+        delivery_type: deliveryType
+    });
+}
+
+// --- 4. GESTÃO DA SACOLA (CARRINHO) ---
 
 function addItemToCart() {
     const sizeSelect = document.getElementById('size');
@@ -58,14 +142,7 @@ function addItemToCart() {
     const itemPrice = parseFloat(sizeSelect.value) + toppingsPrice;
     const itemName = sizeSelect.options[sizeSelect.selectedIndex].text;
 
-    // MONITORAMENTO: Adição ao carrinho
-    if (typeof gtag === 'function') {
-        gtag('event', 'add_to_cart', {
-            'item_name': itemName,
-            'value': itemPrice,
-            'currency': 'BRL'
-        });
-    }
+    trackAddToCart(itemName, itemPrice, sizeSelect.value, toppings);
 
     cart.push({
         name: itemName,
@@ -76,13 +153,11 @@ function addItemToCart() {
 
     updateCartUI();
 
-    // Limpa campos após adicionar
     sizeSelect.value = "0";
     document.getElementById('obs').value = "";
     document.querySelectorAll('.topping').forEach(cb => cb.checked = false);
     document.getElementById('item-subtotal').style.display = 'none';
 
-    // Exibe toast de confirmação
     showAddToast();
 }
 
@@ -97,13 +172,7 @@ function showAddToast() {
 function removeItem(index) {
     const itemRemovido = cart[index];
 
-    // MONITORAMENTO: Remoção
-    if (itemRemovido && typeof gtag === 'function') {
-        gtag('event', 'remove_from_cart', {
-            'item_name': itemRemovido.name,
-            'value': itemRemovido.price
-        });
-    }
+    if (itemRemovido) trackRemoveFromCart(itemRemovido);
 
     cart.splice(index, 1);
     updateCartUI();
@@ -144,19 +213,19 @@ function updateCartUI() {
     totalDisplay.innerText = totalFinal.toFixed(2).replace('.', ',');
 }
 
-// --- 4. INTERFACE E PAGAMENTO ---
+// --- 5. INTERFACE E PAGAMENTO ---
 
 function handlePaymentChange() {
     const payment = document.getElementById('payment').value;
-    
+
     document.getElementById('cash-options').style.display = (payment === 'Dinheiro') ? 'block' : 'none';
     document.getElementById('pix-options').style.display = (payment === 'Pix') ? 'block' : 'none';
 
-    // Chama a verificação do troco se for dinheiro
     if (payment === 'Dinheiro') {
         toggleChangeInput();
     }
 }
+
 function toggleChangeInput() {
     const needChange = document.querySelector('input[name="needChange"]:checked').value;
     document.getElementById('change-input-div').style.display = (needChange === 'sim') ? 'block' : 'none';
@@ -174,17 +243,21 @@ function handleDeliveryOption() {
     updateCartUI();
 }
 
-// --- 5. ENVIO E MONITORAMENTO DE RECORRÊNCIA ---
+// --- 6. ENVIO DO PEDIDO ---
 
 function sendOrder() {
     const name = document.getElementById('name').value.trim();
     const payment = document.getElementById('payment').value;
     const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
 
+    const totalFinalStr = document.getElementById('totalValue').innerText;
+    const valorNumerico = parseFloat(totalFinalStr.replace(',', '.'));
+
+    trackBeginCheckout(cart, valorNumerico);
+
     if (cart.length === 0) { alert("Sua sacola está vazia!"); return; }
     if (!name || !payment) { alert("Preencha seu nome e a forma de pagamento!"); return; }
 
-    // Validação do endereço de entrega
     if (deliveryType === 'entrega') {
         const street = document.getElementById('street').value.trim();
         const number = document.getElementById('number').value.trim();
@@ -197,26 +270,11 @@ function sendOrder() {
         }
     }
 
-    // Lógica de Recorrência
     const jaPediuAntes = localStorage.getItem('made_acai_recorrente');
     const statusCliente = jaPediuAntes ? 'Recorrente' : 'Novo';
 
-    const totalFinalStr = document.getElementById('totalValue').innerText;
-    const valorNumerico = parseFloat(totalFinalStr.replace(',', '.'));
+    trackPurchase(cart, valorNumerico, deliveryType, payment, !!jaPediuAntes);
 
-    // MONITORAMENTO: Conversão de Venda
-    if (typeof gtag === 'function') {
-        gtag('event', 'purchase', {
-            'transaction_id': 'T_' + new Date().getTime(),
-            'value': valorNumerico,
-            'currency': 'BRL',
-            'customer_type': statusCliente,
-            'payment_type': payment,
-            'items': cart.map(item => ({ 'item_name': item.name, 'price': item.price }))
-        });
-    }
-
-    // Salva no navegador que o cliente já fez um pedido
     localStorage.setItem('made_acai_recorrente', 'true');
 
     let addressMsg = "";
