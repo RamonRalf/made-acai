@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Monte seu açaí Madê, escolha os adicionais e finalize seu pedido pelo WhatsApp.">
+  <meta name="theme-color" content="#44173e">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Madê Açaí — peça pelo WhatsApp">
+  <meta property="og:description" content="Monte seu açaí do seu jeito e peça pelo WhatsApp.">
+  <meta property="og:image" content="https://madeacai.online/Mad%C3%AA_A%C3%A7a%C3%AD.jpeg">
+  <meta property="og:url" content="https://madeacai.online/">
+  <title>Madê Açaí | Delivery e retirada</title>
+  <link rel="icon" href="Madê_Açaí.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VZ2EHM4YXB"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VZ2EHM4YXB');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FoodEstablishment","name":"Madê Açaí","url":"https://madeacai.online/","image":"https://madeacai.online/Mad%C3%AA_A%C3%A7a%C3%AD.jpeg","telephone":"+55 32 99999-5869","servesCuisine":"Açaí","priceRange":"R$","address":{"@type":"PostalAddress","streetAddress":"Rua Pedro Francisco da Costa, 516, Morro Vermelho","addressLocality":"Lagoa Dourada","addressRegion":"MG","postalCode":"36345-000","addressCountry":"BR"}}</script>
+</head>
+<body class="is-loading">
+  <a class="skip-link" href="#pedido">Ir para o pedido</a>
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="Carregando Madê Açaí">
+    <div class="page-loader__brand">
+      <img src="Madê_Açaí.jpeg" alt="" width="132" height="132">
+      <strong>Madê Açaí</strong><span>Preparando seu pedido...</span>
+    </div>
+  </div>
+  <header class="hero"><div class="hero__content">
+    <img src="Madê_Açaí.jpeg" alt="" class="hero__logo" width="112" height="112">
+    <div class="hero__wordmark"><img src="Made-logo-transparente.png" alt="Madê Açaí Delivery" width="280" height="85"></div>
+    <span class="hero__eyebrow">Feito na hora, do seu jeito</span>
+    <h1>Monte o seu açaí</h1><p>Escolha o tamanho, capriche nos adicionais e peça em poucos minutos.</p>
+    <div class="hero__badges" aria-label="Informações do pedido"><span>🛵 Entrega por R$ 4</span><span>🏠 Retirada grátis</span></div>
+  </div></header>
+
+  <main id="pedido" class="page-shell"><form id="orderForm" novalidate>
+    <section class="card" aria-labelledby="cliente-title">
+      <div class="section-heading"><span>1</span><div><h2 id="cliente-title">Quem está pedindo?</h2><p>Usaremos seu nome para identificar o pedido.</p></div></div>
+      <label for="name">Seu nome <span aria-hidden="true">*</span></label>
+      <input type="text" id="name" autocomplete="name" maxlength="80" required placeholder="Como você quer ser chamado?" aria-describedby="name-error"><p class="field-error" id="name-error"></p>
+    </section>
+
+    <section class="card" aria-labelledby="monte-title">
+      <div class="section-heading"><span>2</span><div><h2 id="monte-title">Monte seu açaí</h2><p>Selecione um tamanho e quantos adicionais quiser.</p></div></div>
+      <fieldset class="choice-group" id="size-options"><legend>Tamanho <span aria-hidden="true">*</span></legend></fieldset><p class="field-error" id="size-error"></p>
+      <fieldset class="toppings-fieldset"><legend>Adicionais <small>opcional</small></legend><div id="topping-groups"></div></fieldset>
+      <label for="obs">Observações <small>opcional</small></label><textarea id="obs" rows="2" maxlength="180" placeholder="Ex.: colocar a granola separada"></textarea>
+      <div class="item-footer"><div><small>Subtotal deste item</small><strong id="item-subtotal-value">R$ 0,00</strong></div><button type="button" class="button button--primary" id="add-item">Adicionar à sacola</button></div>
+      <p id="add-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" aria-labelledby="cart-title">
+      <div class="section-heading"><span>3</span><div><h2 id="cart-title">Sua sacola</h2><p id="cart-count">Nenhum item adicionado.</p></div></div>
+      <ul id="cart-list" class="cart-list" aria-live="polite"></ul><div id="cart-empty" class="empty-state"><span aria-hidden="true">🥣</span><p>Sua sacola ainda está vazia.</p></div>
+    </section>
+
+    <section class="card" aria-labelledby="delivery-title">
+      <div class="section-heading"><span>4</span><div><h2 id="delivery-title">Entrega ou retirada?</h2><p>Escolha como prefere receber.</p></div></div>
+      <fieldset class="choice-group choice-group--two"><legend class="sr-only">Forma de recebimento</legend>
+        <label class="choice-card"><input type="radio" name="deliveryType" value="entrega" checked><span><strong>Entrega</strong><small>+ R$ 4,00</small></span></label>
+        <label class="choice-card"><input type="radio" name="deliveryType" value="retirada"><span><strong>Retirada</strong><small>Grátis</small></span></label>
+      </fieldset>
+      <div id="address-section">
+        <label for="street">Rua/endereço <span aria-hidden="true">*</span></label><input type="text" id="street" autocomplete="address-line1" maxlength="120" placeholder="Nome da rua">
+        <div class="field-row"><div><label for="number">Número <span aria-hidden="true">*</span></label><input type="text" id="number" inputmode="numeric" maxlength="12" placeholder="516"></div><div><label for="neighborhood">Bairro <span aria-hidden="true">*</span></label><input type="text" id="neighborhood" maxlength="80" placeholder="Centro"></div></div>
+        <label for="complement">Complemento <small>opcional</small></label><input type="text" id="complement" autocomplete="address-line2" maxlength="100" placeholder="Apartamento, fundos...">
+        <label for="refPoint">Ponto de referência <small>opcional</small></label><input type="text" id="refPoint" maxlength="120" placeholder="Próximo à praça"><p class="field-error" id="address-error"></p>
+      </div>
+      <div id="pickup-info" class="info-box" hidden><strong>Local de retirada</strong><p>Rua Pedro Francisco da Costa, 516, Morro Vermelho — em frente à mercearia.</p><iframe title="Mapa do local de retirada da Madê Açaí" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14908.431798675221!2d-44.09313833222642!3d-20.907976163888353!2m3!1f0!2f0!3f0!3m2!1i1024!1i768!4f13.1!3m3!1m2!1s0xa19f38d63a086f%3A0x150b560e827b018e!2sR.%20Pedro%20Francisco%20da%20Costa%2C%20516%2C%20Lagoa%20Dourada%20-%20MG%2C%2036345-000!5e0!3m2!1spt-BR!2sbr!4v1774829445329!5m2!1spt-BR!2sbr" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    </section>
+
+    <section class="card" aria-labelledby="payment-title">
+      <div class="section-heading"><span>5</span><div><h2 id="payment-title">Pagamento</h2><p>Escolha como deseja pagar.</p></div></div>
+      <label for="payment">Forma de pagamento <span aria-hidden="true">*</span></label><select id="payment" required aria-describedby="payment-error"><option value="">Selecione...</option><option value="Pix">Pix</option><option value="Cartão">Cartão</option><option value="Dinheiro">Dinheiro</option></select><p class="field-error" id="payment-error"></p>
+      <div id="pix-options" class="info-box info-box--pix" hidden><strong>Pix — Rodrigo Emanuel da Silva</strong><div class="pix-row"><code id="pix-key">32998346183</code><button type="button" class="button button--small" id="copy-pix">Copiar chave</button></div><p id="copy-status" class="status" role="status" aria-live="polite"></p></div>
+      <div id="cash-options" class="info-box" hidden><fieldset><legend>Precisa de troco?</legend><div class="inline-options"><label><input type="radio" name="needChange" value="nao" checked> Não</label><label><input type="radio" name="needChange" value="sim"> Sim</label></div></fieldset><div id="change-input-wrap" hidden><label for="changeValue">Troco para quanto? <span aria-hidden="true">*</span></label><input type="text" id="changeValue" inputmode="decimal" placeholder="Ex.: 50,00"><p class="field-error" id="change-error"></p></div></div>
+    </section>
+
+    <aside class="checkout" aria-labelledby="summary-title"><h2 id="summary-title">Resumo do pedido</h2><dl><div><dt>Produtos</dt><dd id="products-total">R$ 0,00</dd></div><div><dt>Entrega</dt><dd id="delivery-total">R$ 4,00</dd></div><div class="checkout__total"><dt>Total</dt><dd id="totalValue">R$ 4,00</dd></div></dl><p id="form-error" class="form-error" role="alert"></p><button type="submit" id="btn-finalizar" class="button button--whatsapp">Finalizar no WhatsApp</button><small>Você poderá conferir a mensagem antes de enviar.</small></aside>
+  </form></main>
+  <noscript><p class="noscript">Ative o JavaScript para montar seu pedido.</p></noscript><script src="script.js" defer></script>
+</body>
+</html>
